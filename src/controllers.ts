@@ -34,12 +34,11 @@ export class Controllers {
       ErrorHandler.catchUnexpectedError(error, res);
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        status: 200,
-        results: Helper.modifyUserInfo(users)
-      });
+    const results = Helper.modifyUserInfo(users);
+    res.status(200).json({
+      success: true,
+      status: 200,
+      ...results
+    });
   }
 }
