@@ -14,10 +14,10 @@ export class Helper {
     });
 
     return {
-      users,
+      total: maleCount + femaleCount,
       maleCount,
       femaleCount,
-      total: maleCount + femaleCount
+      users
     };
   }
 }
