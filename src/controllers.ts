@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { User as UserInterface } from './model';
 import User from './model';
+import { ErrorHandler } from './middleware/error';
 
 export class Controllers {
   static sayHello(req: Request, res: Response) {
@@ -14,9 +15,7 @@ export class Controllers {
     try {
       user = await User.create(req.body);
     } catch (error: any) {
-      return res
-        .status(500)
-        .json({ success: false, status: 500, message: error.message });
+      ErrorHandler.catchUnexpectedError(error, res);
     }
 
     res.status(200).json({ success: true, status: 200, user });
@@ -31,9 +30,7 @@ export class Controllers {
         __v: 0
       });
     } catch (error: any) {
-      return res
-        .status(500)
-        .json({ success: false, status: 500, message: error.message });
+      ErrorHandler.catchUnexpectedError(error, res);
     }
 
     res.status(200).json({ success: true, status: 200, users });
