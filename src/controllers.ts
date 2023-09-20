@@ -7,7 +7,7 @@ import { Helper } from './helper';
 
 export class Controllers {
   static sayHello(req: Request, res: Response) {
-    res.status(200).json({ message: 'Hello World!' });
+    res.status(200).json({ success: true, message: 'Hello World!' });
   }
 
   static async addUser(req: Request, res: Response) {
@@ -19,7 +19,7 @@ export class Controllers {
       ErrorHandler.catchUnexpectedError(error, res);
     }
 
-    res.status(200).json({ success: true, status: 200, user });
+    res.status(200).json({ success: true, user });
   }
 
   static async getAllUsers(req: Request, res: Response) {
@@ -37,7 +37,6 @@ export class Controllers {
     const results = Helper.modifyUserInfo(users);
     res.status(200).json({
       success: true,
-      status: 200,
       ...results
     });
   }
