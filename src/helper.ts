@@ -14,9 +14,9 @@ export class Helper {
     });
 
     return {
+      users,
       maleCount,
       femaleCount,
-      users,
       total: maleCount + femaleCount
     };
   }
