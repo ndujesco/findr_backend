@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { User as UserInterface } from './model';
 import User from './model';
 import { ErrorHandler } from './middleware/error';
+import { Helper } from './helper';
 
 export class Controllers {
   static sayHello(req: Request, res: Response) {
@@ -33,6 +34,12 @@ export class Controllers {
       ErrorHandler.catchUnexpectedError(error, res);
     }
 
-    res.status(200).json({ success: true, status: 200, users });
+    res
+      .status(200)
+      .json({
+        success: true,
+        status: 200,
+        results: Helper.modifyUserInfo(users)
+      });
   }
 }
