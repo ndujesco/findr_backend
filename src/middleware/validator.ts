@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
-import User from '../models';
+import { User } from '../models';
 import { Helper } from '../helper';
 
 export class Validator {
@@ -34,7 +34,11 @@ export class Validator {
       return res.status(422).json({
         status: 422,
         message: 'Validation failed',
-        errors: errors.array()
+        errors: errors.array().map((error: any) => ({
+          field: error.path,
+          info: error.msg,
+          input: error.value
+        }))
       });
     }
     next();
@@ -48,7 +52,7 @@ export class Validator {
 
       body('height')
         .trim()
-        .custom(Helper.enumValidator('height', ['tall', 'short'])),
+        .custom(Helper.enumValidator('height', ['short', 'medium', 'tall'])),
 
       body('bodyType')
         .trim()

@@ -1,7 +1,7 @@
-import { User } from './models';
+import { UserI } from './models';
 
 export class Helper {
-  static modifyUserInfo(users: User[]) {
+  static modifyUserInfo(users: UserI[]) {
     let maleCount = 0;
     let femaleCount = 0;
 

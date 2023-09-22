@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 
-import { User as UserInterface } from './models';
-import User from './models';
+import { Questionnaire, QuestionnaireI, User, UserI } from './models';
 import { ErrorHandler } from './middleware/error';
 import { Helper } from './helper';
 
@@ -11,10 +10,11 @@ export class Controllers {
   }
 
   static async addUser(req: Request, res: Response) {
-    let user: UserInterface;
+    let user: UserI;
+    const { name, email, gender } = req.body as UserI;
 
     try {
-      user = await User.create(req.body);
+      user = await User.create({ name, email, gender });
     } catch (error: any) {
       ErrorHandler.catchUnexpectedError(error, res);
     }
@@ -23,7 +23,7 @@ export class Controllers {
   }
 
   static async getAllUsers(req: Request, res: Response) {
-    let users: UserInterface[];
+    let users: UserI[];
 
     try {
       users = await User.find().select({
@@ -39,5 +39,24 @@ export class Controllers {
       success: true,
       ...results
     });
+  }
+
+  static async postQuestionnaire(req: Request, res: Response) {
+    let questionnaire: QuestionnaireI;
+    const { complexion, height, bodyType, ageRange } =
+      req.body as QuestionnaireI;
+
+    try {
+      questionnaire = await Questionnaire.create({
+        complexion,
+        height,
+        bodyType,
+        ageRange
+      });
+    } catch (error: any) {
+      ErrorHandler.catchUnexpectedError(error, res);
+    }
+
+    res.status(200).json({ success: true, questionnaire });
   }
 }

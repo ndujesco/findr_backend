@@ -15,6 +15,11 @@ router.post(
   Controllers.addUser
 );
 
-router.post('/questionnaire');
+router.post(
+  '/questionnaire',
+  Validator.addQuestionnaireValidator(),
+  Validator.validate,
+  Controllers.postQuestionnaire
+);
 
 export default router;
