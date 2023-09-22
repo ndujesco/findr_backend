@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import { User as UserInterface } from './model';
-import User from './model';
+import { User as UserInterface } from './models';
+import User from './models';
 import { ErrorHandler } from './middleware/error';
 import { Helper } from './helper';
 

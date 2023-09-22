@@ -6,13 +6,15 @@ const router = Router();
 
 router.get('/', Controllers.sayHello);
 
+router.get('/user/all', Controllers.getAllUsers);
+
 router.post(
   '/user',
   Validator.addUserValidator(),
-  Validator.validateUser,
+  Validator.validate,
   Controllers.addUser
 );
 
-router.get('/user/all', Controllers.getAllUsers);
+router.post('/questionnaire');
 
 export default router;

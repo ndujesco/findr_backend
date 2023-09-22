@@ -1,4 +1,4 @@
-import { User } from './model';
+import { User } from './models';
 
 export class Helper {
   static modifyUserInfo(users: User[]) {
@@ -18,6 +18,16 @@ export class Helper {
       maleCount,
       femaleCount,
       users
+    };
+  }
+
+  static enumValidator(field: string, values: string[]) {
+    return (value) => {
+      if (!values.includes(value))
+        throw new Error(
+          `${field} must be one of the one of the following: ${values}`
+        );
+      return true;
     };
   }
 }

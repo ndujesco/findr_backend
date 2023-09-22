@@ -1,37 +1,34 @@
 import { NextFunction, Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
-import User from '../model';
+import User from '../models';
+import { Helper } from '../helper';
 
 export class Validator {
   static addUserValidator() {
     return [
-      body('email', 'Email is invalid')
-        .isEmail()
-        .normalizeEmail()
-        .custom((value) => {
-          return User.findOne({ email: value }).then((userDoc) => {
-            if (userDoc) {
-              return Promise.reject('Email address already exists!');
-            }
-          });
-        }),
-
       body('name', 'Name field should not be empty')
         .trim()
         .isLength({ min: 1 }),
 
       body('gender')
         .trim()
+        .custom(Helper.enumValidator('gender', ['male', 'female'])),
+
+      body('email', 'Email is invalid')
+        .normalizeEmail()
+        .isEmail()
         .custom((value) => {
-          if (!['male', 'female'].includes(value))
-            throw new Error("'gender' must be either 'male' or 'female'");
-          return true;
+          return User.findOne({ email: value }).then((userDoc) => {
+            if (userDoc) {
+              return Promise.reject('Email address already exists!');
+            }
+          });
         })
     ];
   }
 
-  static validateUser(req: Request, res: Response, next: NextFunction) {
+  static validate(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(422).json({
@@ -41,5 +38,25 @@ export class Validator {
       });
     }
     next();
+  }
+
+  static addQuestionnaireValidator() {
+    return [
+      body('complexion')
+        .trim()
+        .custom(Helper.enumValidator('complexion', ['light', 'dark'])),
+
+      body('height')
+        .trim()
+        .custom(Helper.enumValidator('height', ['tall', 'short'])),
+
+      body('bodyType')
+        .trim()
+        .custom(Helper.enumValidator('bodyType', ['slim', 'built', 'chubby'])),
+
+      body('ageRange')
+        .trim()
+        .custom(Helper.enumValidator('ageRange', ['20-30', '30-40', '40-50']))
+    ];
   }
 }
