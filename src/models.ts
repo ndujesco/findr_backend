@@ -41,18 +41,24 @@ export interface QuestionnaireI {
   ageRange: AgeRange;
 }
 
-const userSchema = new Schema<UserI>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  gender: { type: String, enum: Gender, required: true }
-});
+const userSchema = new Schema<UserI>(
+  {
+    name: { type: String, required: true },
+    email: { type: String, required: true },
+    gender: { type: String, enum: Gender, required: true }
+  },
+  { timestamps: true }
+);
 
-const questionnaireSchema = new Schema<QuestionnaireI>({
-  complexion: { type: String, enum: Complexion, required: true },
-  height: { type: String, enum: Height, required: true },
-  bodyType: { type: String, enum: BodyType, required: true },
-  ageRange: { type: String, enum: AgeRange, required: true }
-});
+const questionnaireSchema = new Schema<QuestionnaireI>(
+  {
+    complexion: { type: String, enum: Complexion, required: true },
+    height: { type: String, enum: Height, required: true },
+    bodyType: { type: String, enum: BodyType, required: true },
+    ageRange: { type: String, enum: AgeRange, required: true }
+  },
+  { timestamps: true }
+);
 
 const User = model<UserI>('User', userSchema);
 const Questionnaire = model<QuestionnaireI>(
