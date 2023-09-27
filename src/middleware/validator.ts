@@ -4,6 +4,7 @@ import { body, validationResult } from 'express-validator';
 import { User } from '../models';
 import { Helper } from '../helper';
 
+const emailErrorMessage = 'Email address already exists!';
 export class Validator {
   static addUserValidator() {
     return [
@@ -21,7 +22,7 @@ export class Validator {
         .custom((value) => {
           return User.findOne({ email: value }).then((userDoc) => {
             if (userDoc) {
-              return Promise.reject('Email address already exists!');
+              return Promise.reject(emailErrorMessage);
             }
           });
         })
@@ -30,7 +31,19 @@ export class Validator {
 
   static validate(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
+      const sameEmailError = errors
+        .array()
+        .some((err) => err.msg === emailErrorMessage);
+
+      if (sameEmailError)
+        return res.status(409).json({
+          success: false,
+          status: 409,
+          message: emailErrorMessage
+        });
+
       return res.status(422).json({
         status: 422,
         message: 'Validation failed',
