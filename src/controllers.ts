@@ -28,13 +28,36 @@ export class Controllers {
     try {
       users = await User.find().select({
         _id: 0,
-        __v: 0
+        __v: 0,
+        updatedAt: 0
       });
     } catch (error: any) {
       ErrorHandler.catchUnexpectedError(error, res);
     }
 
-    const results = Helper.modifyUserInfo(users);
+    const result = Helper.modifyUserInfo(users);
+    res.status(200).json({
+      success: true,
+      ...result
+    });
+  }
+
+  static async getSurveyResponses(req: Request, res: Response) {
+    let responses: QuestionnaireI[];
+
+    try {
+      responses = await Questionnaire.find().select({
+        _id: 0,
+        __v: 0,
+        updatedAt: 0
+      });
+    } catch (error: any) {
+      ErrorHandler.catchUnexpectedError(error, res);
+    }
+
+    const results = responses;
+    console.log(results);
+
     res.status(200).json({
       success: true,
       ...results

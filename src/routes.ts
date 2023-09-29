@@ -8,6 +8,8 @@ router.get('/', Controllers.sayHello);
 
 router.get('/user/all', Controllers.getAllUsers);
 
+router.get('/questionnaire/all', Controllers.getSurveyResponses);
+
 router.post(
   '/user',
   Validator.addUserValidator(),
