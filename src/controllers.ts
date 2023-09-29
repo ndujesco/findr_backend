@@ -23,7 +23,7 @@ export class Controllers {
   }
 
   static async getAllUsers(req: Request, res: Response) {
-    let users: UserI[];
+    let users: UserI[] = [];
 
     try {
       users = await User.find().select({
@@ -43,7 +43,7 @@ export class Controllers {
   }
 
   static async getSurveyResponses(req: Request, res: Response) {
-    let responses: QuestionnaireI[];
+    let responses: QuestionnaireI[] = [];
 
     try {
       responses = await Questionnaire.find().select({
@@ -55,12 +55,9 @@ export class Controllers {
       ErrorHandler.catchUnexpectedError(error, res);
     }
 
-    const results = responses;
-    console.log(results);
-
     res.status(200).json({
       success: true,
-      ...results
+      ...responses
     });
   }
 
