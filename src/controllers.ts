@@ -57,7 +57,7 @@ export class Controllers {
 
     res.status(200).json({
       success: true,
-      ...responses
+      responses
     });
   }
 
