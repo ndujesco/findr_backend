@@ -17,7 +17,6 @@ export class Validator {
         .custom(Helper.enumValidator('gender', ['male', 'female'])),
 
       body('email', 'Email is invalid')
-        .normalizeEmail()
         .isEmail()
         .custom((value) => {
           return User.findOne({ email: value }).then((userDoc) => {
