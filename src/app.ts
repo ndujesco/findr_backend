@@ -7,7 +7,8 @@ import { ErrorHandler } from './middleware/error';
 
 const app = express();
 
-app.use(cors());
+app.use(cors({ origin: '*', methods: ['GET', 'POST'], allowedHeaders: '*' }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
